@@ -1,0 +1,4 @@
+https://medium.com/@ozgurgul/asp-net-core-2-0-webapi-jwt-authentication-with-identity-mysql-3698eeba6ff8
+https://code-maze.com/authentication-aspnetcore-jwt-1/
+https://code.tutsplus.com/ru/tutorials/jwt-authentication-in-angular--cms-32006
+https://jasonwatmore.com/post/2019/06/22/angular-8-jwt-authentication-example-tutorial

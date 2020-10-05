@@ -1,0 +1,23 @@
+<div class="contact" id="chat-header-id">
+  <img class="back-button-pic" src="assets/images/back_icon.png" (click)="clickBackButton()" id="back-button-id" />
+  <img class="companion-profile-pic" id="companion-pic-id" />
+  <p id="companion-title-id"></p>
+</div>
+<div class="chat-area" id="chat-area-id"
+     #chatArea [scrollTop]="chatArea.scrollHeight">
+  <div *ngFor="let message of messages">
+    <div class='message-wrap send' [ngClass]="{'send': isSender(message), 'recieve': !isSender(message)}">
+      <div class='message'>
+        <div class='message-sender'>{{resolveUser(message)}}</div>
+        <span class='message-text'>{{message.text}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='message-block' id="message-block-id">
+  <form class="message-form" [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+    <textarea maxlength="250" placeholder="Сообщение..."
+              rows="1" data-min-rows="1" class="message-input"
+              (keyup.enter)="sendMessage()" formControlName="message" id="text-input-id"></textarea>
+  </form>
+</div>

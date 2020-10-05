@@ -1,0 +1,32 @@
+/*.drag-and-drop-area {
+  height: 200px;
+  width: 200px;
+  border-radius: 70px;
+  border: 2px solid slategrey;
+}*/
+
+.file-menu {
+  color: white;
+  background-color:darkcyan;
+  border: 1px solid cadetblue;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.hidden-file-input {
+    opacity: 0;
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
+
+#user-pic {
+    height: 200px;
+    width: auto;
+}
+
+.hide {
+  display: none !important;
+}

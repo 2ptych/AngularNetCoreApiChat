@@ -1,0 +1,89 @@
+.contact {
+  min-height: 60px;
+  background-color: #ebedf0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.back-button-pic {
+  height: 30px;
+  width: 30px;
+  border-width: 1px;
+  border-color: darkgrey;
+}
+
+.companion-profile-pic {
+  height: 35px;
+  width: 35px;
+  border-width: 1px;
+  border-color: darkgrey;
+  border-radius: 30px;
+  margin: 0 10px;
+}
+
+.chat-area {
+  flex-grow: 1;
+  overflow-y: scroll;
+  background-color: #c9f5d1;
+}
+
+.message-wrap {
+  display: flex;
+  margin: 3px 10px;
+}
+
+.message {
+  border: 1px solid #b3b3b3;
+  border-radius: 10px;
+  background-color: aliceblue;
+  padding: 5px;
+  max-width: 45%;
+  min-width: 25%;
+}
+
+.message-sender {
+  font-weight: 600;
+}
+
+.message-text {
+  word-break: break-all;
+  font-weight: 400;
+}
+
+.send {
+  justify-content: flex-end;
+}
+
+.recieve {
+  justify-content: flex-start;
+}
+
+.message-block {
+  min-height: 60px;
+  background-color: aquamarine;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-form {
+  flex-basis: 96%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*margin: 0 10px;*/
+}
+
+.message-input {
+  border: 2px solid grey;
+  border-radius: 25px;
+  font-size: 16px;
+  resize: none;
+  padding: 5px 5px;
+  flex-basis: 100%;
+}
+
+.hide {
+  display: none;
+}

@@ -1,0 +1,15 @@
+.notification-block {
+    margin: 5px 0;
+    position: absolute;
+    border-radius: 15px;
+    background-color: maroon;
+    color: white;
+    width: 90%;
+    padding: 40px;
+    display: flex;
+    justify-content:center;
+}
+span {
+}
+
+

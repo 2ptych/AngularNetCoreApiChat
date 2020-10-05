@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <div class="form-border">
+    <div class="form-title">
+      <h1>Регистрация</h1>
+      <div DragNDrop (fileDropped)="onFileDropped($event)" class="drag-drop-area" id="drag-drop-area-js">
+        <img src="assets/images/photo-icon.svg" alt="" id="icon-drop-js" class="drop-icon">
+        <button class="btn-light" id="file-select-js" (click)="openFileWindow()">Выберите файл</button>
+        <form >
+          <input  hidden type="file" id="file-input-js" (change)="fileHandler($event)" />
+        </form>
+        <p id="note-js">или перетащите сюда фото профиля в формате .jpg</p>
+        <progress hidden id="progress-bar-js" max="100" min="0" value="0"></progress>
+      </div>
+    </div>
+    <form [formGroup]="registerFormGroup" class="ng-form" (ngSubmit)="onSubmit()">
+      <div class="form-control">
+        <img id="user-photo-js" class="drop-icon">
+        <input hidden formControlName="photo">
+        <span class="validation-error" *ngIf="registerFormGroup.dirty">{{getValidationErrors(photoControl)}}</span>
+      </div>
+      <div class="form-control">
+        <input formControlName="email" type="text" placeholder="E-mail" [ngClass]="{'invalid-input': !emailControl.valid}">
+        <span class="validation-error" *ngIf="emailControl.dirty">{{getValidationErrors(emailControl)}}</span>
+      </div>
+      <div class="form-control">
+        <input formControlName="name" type="text" placeholder="Имя">
+        <span class="validation-error" *ngIf="nameControl.dirty && nameControl.invalid">{{getValidationErrors(nameControl)}}</span>
+      </div>
+      <div class="form-control">
+        <input formControlName="familyName" type="text" placeholder="Фамилия">
+        <span class="validation-error" *ngIf="familyNameControl.dirty && familyNameControl.invalid">{{getValidationErrors(familyNameControl)}}</span>
+      </div>
+      <div class="form-control">
+        <input formControlName="password" type="password" placeholder="Пароль">
+        <span class="validation-error" *ngIf="passwordControl.dirty && passwordControl.invalid">{{getValidationErrors(passwordControl)}}</span>
+      </div>
+      <div class="form-control">
+        <input formControlName="confirmPassword" type="password" placeholder="Повторите пароль">
+        <span class="validation-error" *ngIf="confirmPasswordControl.dirty">{{getValidationErrors(confirmPasswordControl)}}</span>
+      </div>
+      <!--<div class="checkbox-control">
+        <input type="checkbox">
+        <label>Я согласен с условиями использования и даю свое согласие на обработку моих персональных данных</label>
+      </div>-->
+      <div class="form-control">
+        <input type="submit" [disabled]="registerFormGroup.invalid" value="Отправить">
+      </div>
+      <div class="form-control additional">
+        <a [routerLink]="['/login']">Уже есть аккаунт? Вход</a>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="js/dragDropArea.js"></script>

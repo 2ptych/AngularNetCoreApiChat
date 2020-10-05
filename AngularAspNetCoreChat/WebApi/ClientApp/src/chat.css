@@ -1,0 +1,185 @@
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Circe Regular', sans-serif;
+}
+
+.hide {
+  display: none !important;
+}
+
+.message-block {
+  background-color: azure;
+  display: flex;
+  align-items: center;
+}
+
+.message-block form {
+  flex: 1;
+  background-color: burlywood;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+}
+
+.message-input {
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 2px;
+  resize: none;
+  flex-basis: 90%;
+  margin: 10px;
+}
+
+.send-btn {
+  margin: 10px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid transparent;
+  background-color: aqua;
+}
+
+.contacts-wrap {
+}
+
+.contact {
+  display:flex;
+  justify-content:center;
+  flex-direction:row;
+  /*height: 20px;*/
+  background-color: cornflowerblue;
+  border: 1px solid blue;
+  margin: -2px 0;
+  padding: 2px;
+}
+
+.message-wrap {
+  display: flex;
+  margin: 3px 10px;
+}
+
+.message {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: aliceblue;
+  padding: 5px;
+  max-width: 45%;
+  min-width: 25%;
+}
+
+.message-sender {
+  font-weight: 600;
+}
+
+.message-text {
+  word-break: break-all;
+}
+
+.send {
+  justify-content: flex-end;
+}
+
+.recieve {
+  justify-content: flex-start;
+}
+
+.search {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  align-items: center;
+}
+
+#profile-btn {
+  height: 38px;
+  width: 38px;
+  z-index: 1;
+  margin: 5px;
+}
+
+#search-field {
+  flex-basis: 80%;
+  margin: 5px;
+  flex-basis: 80%;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 9px;
+  padding: 7px;
+}
+
+.active {
+  background-color: darksalmon;
+}
+
+.profile-board {
+  position: absolute;
+  width: 350px;
+  height: 100%;
+  background-color: aliceblue;
+}
+
+.wrapper-chat {
+  background-color: bisque;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  display: flex;
+}
+
+.side-panel {
+  background-color: aquamarine;
+  flex: 1;
+}
+
+.content {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: blueviolet;
+}
+
+.chat-area {
+  /*flex: 10;*/
+  flex: 1 0 auto;
+  overflow-y: scroll;
+  background-color: cadetblue;
+}
+
+.showAboveOnNarrow {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 576px) {
+
+  .content {
+    flex: 5;
+    display:flex;
+  }
+
+  .side-panel {
+    background-color: aquamarine;
+    flex: 2;
+  }
+  .search {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .message-wrap {
+    margin: 5px 3%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .message-wrap {
+    margin: 5px 6%;
+  }
+}
