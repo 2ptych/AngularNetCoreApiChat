@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using NetCoreApi.Data;
 using NetCoreApi.Models;
 using NetCoreApi.Services;
+using NetCoreApi.Middleware;
 
 namespace NetCoreApi
 {
@@ -96,14 +97,6 @@ namespace NetCoreApi
                     };
                 });
 
-            //services.AddAuthorization(option => { });
-
-            /*services.AddMvc(options =>
-            {
-                //options.EnableEndpointRouting = false;//
-            })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);*/
-
             services.AddSignalR();
 
             //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
@@ -122,16 +115,9 @@ namespace NetCoreApi
                               IHostingEnvironment env,
                               UserManager<ApplicationUser> userManager)
         {
-            /*if (env.IsDevelopment())
-            {
-                
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                //app.UseHsts();
-            }*/
             app.UseDeveloperExceptionPage();
+
+            //app.UseAccessControlAllowOrigin();
 
             app.UseCors("CorsPolicy");
             

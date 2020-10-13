@@ -3,10 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from '../../environments/environment';
 import { Injectable } from "@angular/core";
-import { switchMap } from "rxjs/operator/switchMap";
-import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
-//import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
-//import { debounceTime } from "rxjs/operator/debounceTime";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class ExistEmailValidator {

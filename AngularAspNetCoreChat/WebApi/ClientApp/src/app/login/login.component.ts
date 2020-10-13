@@ -2,13 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { LoginModel } from '../models/login.model';
 import { AuthenticationService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { HttpErrorResponse, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { catchError } from "rxjs/operators";
-import { _throw as throwError } from 'rxjs/observable/throw';
-import { NotificationService } from '../services/notification.service';
-import { TokenInterceptorService } from '../services/token.interceptor';
 
 @Component({
   selector: 'app-login-form',

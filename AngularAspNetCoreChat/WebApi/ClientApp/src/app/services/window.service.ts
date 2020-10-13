@@ -20,7 +20,7 @@ export class WindowService {
   })
 
   constructor(@Inject('windowObject') private window: Window) {
-    Observable.fromEvent(window, 'resize')
+    Observable.create(window, 'resize')
       .auditTime(100)
       .map(event => {
         return new WindowSize({

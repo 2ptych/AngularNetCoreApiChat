@@ -13,6 +13,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { DragNDropDirective } from './directives/dragndrop.directive';
+import { ErrorInterceptorService } from './services/error.interceptor.service';
 
 const routes: Routes = [
     {
@@ -60,17 +61,17 @@ const routes: Routes = [
     HttpClientModule,
     ExistEmailValidator,
     NotificationService,
-    SignalRService
+    SignalRService,
       /*{
         provide: HTTP_INTERCEPTORS,
         useClass: TokenInterceptorService,
         multi: true
       },*/
-      /*{
+      {
         provide: HTTP_INTERCEPTORS,
         useClass: ErrorInterceptorService,
         multi: true
-      }*/
+      }
   ],
   bootstrap: [AppComponent]
 })

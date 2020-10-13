@@ -4,7 +4,6 @@ import { HubConnection } from '@microsoft/signalr';
 import * as SignalR from "@microsoft/signalr";
 import { environment } from "../../environments/environment";
 import { AuthenticationService } from "./auth.service";
-import { setTimeout } from "timers";
 import { BehaviorSubject } from "rxjs";
 
 export enum ConnectionState {
@@ -27,7 +26,7 @@ export class SignalRService /*implements OnDestroy*/ {
   constructor(private authService: AuthenticationService) {
     this.createConnection();
     this.subscrForEvents();
-    console.log("Новый экземпляр SignalR");
+    //console.log("Новый экземпляр SignalR");
   }
 
   subscrForEvents() {

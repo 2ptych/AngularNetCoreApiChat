@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { LoginModel } from '../models/login.model';
-import { _throw as throwError } from 'rxjs/observable/throw';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
 
@@ -32,14 +31,14 @@ export class AuthenticationService {
         //console.log('Ответ сервера: ', response);
         this.noteService.success("Успешная авторизация");
         this.router.navigateByUrl('chat');
-      }),
+      })/*,
         catchError(event => {
           if ((event instanceof HttpErrorResponse) && (event.status === 401)) {
             this.noteService.error("Неверный логин или пароль");
             console.log("401: ", event);
             return throwError("Авторизация не удалась");
           }
-      }));
+      })*/);
   }
 
   public logout() {

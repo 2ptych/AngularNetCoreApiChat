@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using NetCoreApi.Data;
+using Microsoft.Data.SqlClient;
 
 namespace NetCoreApi.Models
 {
@@ -20,6 +21,20 @@ namespace NetCoreApi.Models
         {
             dbContext = _context;
             userManager = _userManager;
+        }
+
+        public bool CheckDbConnection()
+        {
+            try
+            {
+                dbContext.Database.OpenConnection();
+                dbContext.Database.CloseConnection();
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<ApplicationUser> GetUserByIdAsync(string id)

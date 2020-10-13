@@ -7,6 +7,7 @@ namespace NetCoreApi.Models
 {
     public interface IRepository
     {
+        bool CheckDbConnection();
         Task<ApplicationUser> SearchUserByEmailAsync(string email);
         Task<ApplicationUser> FindUserByNameAsync(string email);
         void AddUserInChat(ApplicationUser user, Chat commonChat);

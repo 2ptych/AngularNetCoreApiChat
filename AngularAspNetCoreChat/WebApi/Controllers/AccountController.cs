@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -59,30 +60,35 @@ namespace NetCoreApi.Controllers
                 return BadRequest("Invalid login attempt");
             }
 
-            ////// инициализация пользователей //////
-            if (_userManager.Users.Count() <= 5)
+            if (_repository.CheckDbConnection())
             {
-                var init = new InitialDbSeed(_userManager,_conferenceId,_repository);
-                await init.SeedUsers();
-            }
-            ////// инициализация пользователей //////
-
-            ApplicationUser searchedUser = await _repository.SearchUserByEmailAsync(user.Email);
-            if (searchedUser != null)
-            {
-                var result =
-                await _signInManager.PasswordSignInAsync(user.Email,
-                                                         user.Password,
-                                                         false,
-                                                         lockoutOnFailure: false);
-                if (result.Succeeded)
+                ////// инициализация пользователей //////
+                if (_userManager.Users.Count() <= 5)
                 {
-                    TokenRequest answer =
-                        new TokenRequest(IssueJwtToken(searchedUser).ToString());
-                    return Ok(answer);
+                    var init = new InitialDbSeed(_userManager, _conferenceId, _repository);
+                    await init.SeedUsers();
                 }
+                ////// инициализация пользователей //////
+
+                ApplicationUser searchedUser = await _repository.SearchUserByEmailAsync(user.Email);
+                if (searchedUser != null)
+                {
+                    var result =
+                    await _signInManager.PasswordSignInAsync(user.Email,
+                                                             user.Password,
+                                                             false,
+                                                             lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        TokenRequest answer =
+                            new TokenRequest(IssueJwtToken(searchedUser).ToString());
+                        return Ok(answer);
+                    }
+                    else return Unauthorized();
+                }
+                else return Unauthorized();
             }
-            return Unauthorized();
+            else return StatusCode(StatusCodes.Status500InternalServerError, "");
         }
 
         private object IssueJwtToken(ApplicationUser currentUser)

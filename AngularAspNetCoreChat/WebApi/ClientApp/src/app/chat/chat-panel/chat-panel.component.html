@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class='message-block' id="message-block-id">
-  <form class="message-form" [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+  <form class="message-form" [formGroup]="messageForm">
     <textarea maxlength="250" placeholder="Сообщение..."
               rows="1" data-min-rows="1" class="message-input"
               (keyup.enter)="sendMessage()" formControlName="message" id="text-input-id"></textarea>

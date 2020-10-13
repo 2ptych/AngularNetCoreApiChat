@@ -10,9 +10,8 @@ import {
 } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
 import { HttpClient, HttpErrorResponse, HttpEventType, HttpEvent, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { ExistEmailValidator } from "../validators/existEmail.validator";
-import { of } from "rxjs/observable/of";
 import { NotificationService } from "../services/notification.service";
 
 @Component({
