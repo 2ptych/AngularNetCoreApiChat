@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 using NetCoreApi.Data;
 using NetCoreApi.Models;
 using NetCoreApi.Services;
-using NetCoreApi.Middleware;
 
 namespace NetCoreApi
 {

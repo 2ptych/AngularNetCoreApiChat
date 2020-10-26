@@ -40,7 +40,7 @@ const routes: Routes = [
       useValue: window
     },
     WindowService,
-    NameResolverService//,MessageCacheService
+    NameResolverService
   ],
   
   imports: [

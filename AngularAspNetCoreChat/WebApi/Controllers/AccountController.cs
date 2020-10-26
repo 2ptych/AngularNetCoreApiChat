@@ -88,7 +88,7 @@ namespace NetCoreApi.Controllers
                 }
                 else return Unauthorized();
             }
-            else return StatusCode(StatusCodes.Status500InternalServerError, "");
+            else return StatusCode(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера");
         }
 
         private object IssueJwtToken(ApplicationUser currentUser)

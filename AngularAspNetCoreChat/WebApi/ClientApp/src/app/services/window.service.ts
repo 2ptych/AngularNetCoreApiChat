@@ -1,35 +1,27 @@
 import { Injectable, Inject } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs";
-
-export class WindowSize {
-  public width: number;
-  public height: number;
-
-  public constructor(init?: Partial<WindowSize>) {
-    Object.assign(this, init);
-  }
-}
+import { BehaviorSubject, Observable, fromEvent, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 // сервис для получения разрешения экрана
 @Injectable()
 export class WindowService {
 
-  readonly windowSizeChanged = new BehaviorSubject<WindowSize>({
+  resizeObservable: Observable<Event>;
+  resizeSubscription: Subscription;
+
+  /*readonly windowSizeChanged = new BehaviorSubject<WindowSize>({
     width: this.window.innerWidth,
     height: this.window.innerHeight
-  })
+  })*/
 
-  constructor(@Inject('windowObject') private window: Window) {
-    Observable.create(window, 'resize')
-      .auditTime(100)
-      .map(event => {
-        return new WindowSize({
-          width: event['currentTarget'].innerWidth,
-          height: event['currentTarget'].innerHeight
-        });
-      })
-      .subscribe((windowSize) => {
-        this.windowSizeChanged.next(windowSize);
+  //ngOnIn
+
+  /*constructor(@Inject('windowObject') private window: Window) {
+    this.resizeObservable = fromEvent(window, 'resize');
+    this.resizeSubscription = this.resizeObservable.pipe(tap(event => {
+      new WindowSize({
+        width:event['currentTarget'].innerHeight
       });
-  }
+    })).subscribe(event => {});
+  }*/
 }

@@ -1,33 +1,53 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { ResizedEvent } from "angular-resize-event";
 import { StateManagmentService } from "../services/state-managment.service";
 import { ChatModel } from "../models/chat.model";
-import { WindowSize } from "../services/window.service";
-import { Subscription } from "rxjs";
+import { Subscription, BehaviorSubject } from "rxjs";
+import { WindowSize } from '../models/window-size.model';
 
 @Component({
   selector: 'chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
+
+
+
 export class ChatComponent implements OnInit {
   actualWidth: number;
   selectChat: ChatModel;
-  windowSize: WindowSize;
-  windowSizeSubscription: Subscription;
+  //windowSize: WindowSize;
+  //windowSizeSubscription: Subscription;
+
+  windowSizeBS = new BehaviorSubject<WindowSize>(null);
+  windowSize = this.windowSizeBS.asObservable();
   load: boolean = true;
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    // при ресайзе создаем новый объект
+    this.windowSizeBS.next(new WindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    }))
+    ;
+  }
   constructor(private sharedData: StateManagmentService) { }
 
   ngOnInit() {
     this.hideChatContent();
+
+    /*this.windowSizeBS.next(new WindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    }))*/
 
     // событие клика по чату
     this.sharedData.currentChat.subscribe(value => {
       if (!this.load) {
         this.selectChat = value;
         //console.log('чат получен ' + value);
-        if (this.sharedData.windowSize.width <= 576) {
+        if (this.windowSize["width"] <= 576) {
           this.showChatContent();
           this.showChatAreaOnly();
         }
@@ -42,7 +62,7 @@ export class ChatComponent implements OnInit {
       () => {
         if (!this.load) {
           console.log('нажата кнопка назад');
-          if (this.sharedData.windowSize.width <= 576) {
+          if (this.windowSize["width"] <= 576) {
             this.showSidePanelOnly();
             this.hideChatContent();
           }

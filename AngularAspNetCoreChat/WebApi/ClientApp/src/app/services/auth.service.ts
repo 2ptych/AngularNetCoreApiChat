@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { LoginModel } from '../models/login.model';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
+import { HttpStates } from '../models/http-states.enum';
+import { error } from '@angular/compiler/src/util';
 
 @Injectable()
 export class AuthenticationService {
@@ -25,20 +27,19 @@ export class AuthenticationService {
     console.log('начинается выполнение post-запроса');
     this.logout();
     return this.http.post<any>(this.AuthenticationUrl, loginModel)
-      .pipe(map(response => {
-        this.setUserCredentials(JSON.stringify(response));
-        console.log('Успешная авторизация');
-        //console.log('Ответ сервера: ', response);
-        this.noteService.success("Успешная авторизация");
-        this.router.navigateByUrl('chat');
-      })/*,
-        catchError(event => {
-          if ((event instanceof HttpErrorResponse) && (event.status === 401)) {
-            this.noteService.error("Неверный логин или пароль");
-            console.log("401: ", event);
-            return throwError("Авторизация не удалась");
-          }
-      })*/);
+      .pipe(
+        catchError(error => {
+          return throwError(error);
+        }),
+        tap(response => {
+          this.setUserCredentials(JSON.stringify(response));
+          console.log('Ответ сервера: ', response);
+          this.router.navigateByUrl('/chat');
+          /*if (response.status === HttpStates.Ok) {
+            
+          }*/
+        })
+      );
   }
 
   public logout() {
@@ -157,6 +158,7 @@ export class AuthenticationService {
 
   // установка токена
   private setAccessToken(accessToken: string) {
+    console.log('установка токена');
     localStorage.setItem(this.AccessTokenField, accessToken);
   }
 

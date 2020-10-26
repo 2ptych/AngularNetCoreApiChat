@@ -53,11 +53,13 @@
     <None Remove="ClientApp\src\app\directives\dragndrop.directive.ts" />
     <None Remove="ClientApp\src\app\login\login.module.ts" />
     <None Remove="ClientApp\src\app\models\chat.model.ts" />
+    <None Remove="ClientApp\src\app\models\http-states.enum.ts" />
     <None Remove="ClientApp\src\app\models\login.model.ts" />
     <None Remove="ClientApp\src\app\models\name-resolver.model.ts" />
     <None Remove="ClientApp\src\app\models\register.model.ts" />
     <None Remove="ClientApp\src\app\models\signedUserClaims.model.ts" />
     <None Remove="ClientApp\src\app\models\userlist.model.ts" />
+    <None Remove="ClientApp\src\app\models\window-size.model.ts" />
     <None Remove="ClientApp\src\app\notification\notification.model.ts" />
     <None Remove="ClientApp\src\app\register\register.component.ts" />
     <None Remove="ClientApp\src\app\register\register.module.ts" />
@@ -88,9 +90,11 @@
     <TypeScriptCompile Include="ClientApp\src\app\directives\dragndrop.directive.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\login\login.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\chat.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\http-states.enum.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\name-resolver.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\signedUserClaims.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\userlist.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\window-size.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\notification\notification.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\login.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\register.model.ts" />
@@ -138,6 +142,6 @@
     </ItemGroup>
   </Target>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" clientapp_4package_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

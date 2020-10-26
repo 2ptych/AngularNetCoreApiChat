@@ -1,7 +1,6 @@
 import { Injectable, OnInit, OnDestroy } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ChatModel } from "../models/chat.model";
-import { WindowSize, WindowService } from "./window.service";
 import { SignalRService, ConnectionState  } from "./signalr.service";
 import { NameResolverService } from "./name-resolver.service";
 import { MessageModel } from "../models/message.model";
@@ -20,19 +19,22 @@ export class StateManagmentService implements OnDestroy {
   // залогиненый пользователь
   loggedUser: ChatModel;
 
-  windowSize: WindowSize;
-  private windowSizeSubscription;
+  // BS для получения события 
+  /*private unauthLogin = new BehaviorSubject<boolean>(null);
+  unauthLoginError = this.unauthLogin.asObservable();*/
 
+  //windowSize: WindowSize;
+  private windowSizeSubscription;
   // сервис с разрешением экрана
   // и событием ресайза окна
-  constructor(private windowService: WindowService,
+  constructor(//private windowService: WindowService,
     private signalrService: SignalRService,
     public nameResolver: NameResolverService) {
     // получение размеров окна при изменении
-    this.windowSizeSubscription = this.windowService.windowSizeChanged
+    /*this.windowSizeSubscription = this.windowService.windowSizeChanged
       .subscribe(value => {
         this.windowSize = value;
-      });
+      });*/
   }
 
   selectChat(chat: ChatModel) {

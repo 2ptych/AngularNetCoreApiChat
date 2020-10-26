@@ -14,10 +14,6 @@
         <input formControlName="password" type="password" placeholder="Пароль">
         <span class="validation-error" *ngIf="passwordControl.dirty && passwordControl.invalid">{{getValidationErrors(passwordControl)}}</span>
       </div>
-      <!--<div class="checkbox-control">
-        <input type="checkbox">
-        <label>Запомнить меня</label>
-      </div>-->
       <div class="form-control">
         <input type="submit" [disabled]="loginFormGroup.invalid" value="Войти">
       </div>

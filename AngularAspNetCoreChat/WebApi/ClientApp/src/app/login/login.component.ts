@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LoginModel } from '../models/login.model';
 import { AuthenticationService } from '../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpStates } from '../models/http-states.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginFormGroup: FormGroup;
   loginModel: LoginModel = new LoginModel();
   submitted: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthenticationService,
-    //private router: Router,
+    private router: Router,
     //private noteService: NotificationService
   ) { }
 
@@ -24,12 +27,28 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    //this.loginFormGroup.get("password").valueChanges.subscribe(value => console.log(value));
+
+    // подписка на событие
+    /*this.sharedData.unauthLoginError.subscribe((loginSuccess) => {
+      this.addUnautorizedErrorInState();
+      console.log("Login Result ", loginSuccess);
+    });*/
   }
 
+  ngOnDestroy() {
+    
+  }
+
+   
   login() {
     if (this.loginModel.email && this.loginModel.password) {
-      this.authService.login(this.loginModel).subscribe();
+      this.authService.login(this.loginModel).subscribe(response => {
+        console.log('получен код ответа ', response);
+        this.router.navigateByUrl('/chat');
+      }, error => {
+          console.log('получен код ошибки ', error);
+          this.addUnautorizedErrorInState();
+      });
     }
   }
 
@@ -39,8 +58,11 @@ export class LoginComponent implements OnInit {
     this.loginModel.email = this.loginFormGroup.get("email").value as string;
     this.loginModel.password = this.loginFormGroup.get("password").value as string;
     this.login();
-    console.log('Submitted');
     this.loginFormGroup.reset();
+  }
+
+  addUnautorizedErrorInState() {
+    this.passwordControl.setErrors({ unauthorized: true });
   }
 
   getValidationErrors(state: any) {
@@ -53,6 +75,9 @@ export class LoginComponent implements OnInit {
             break;
           case "email":
             messages.push("Укажите действительный адрес");
+            break;
+          case "unauthorized":
+            messages.push("Неверный логин или пароль");
             break;
         }
       }
