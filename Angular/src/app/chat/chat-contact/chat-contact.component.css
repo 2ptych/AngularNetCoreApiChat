@@ -1,0 +1,33 @@
+.chat {
+    border: 1px solid #DEDEDE;
+    /*background-color: azure;*/
+    height: 66px;
+    flex: 1;
+    padding: 0 -2px;
+    margin: -1px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 8px;
+    cursor: pointer;
+  }
+
+  .contact-pic {
+    height: 53px;
+    width: 53px;
+    border-width: 1px;
+    border-color: darkgrey;
+    border-radius: 30px;
+  }
+  
+  .contact-text {
+    display: flex;
+    flex-direction: column;
+    margin: 0 8px;
+  }
+  
+  .contact-title {
+    font-size: 22px;
+  }
+
+  

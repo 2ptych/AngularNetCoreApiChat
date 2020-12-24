@@ -1,0 +1,44 @@
+.profile {
+  height: 60px;
+  background-color: aquamarine;
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  height: 40px;
+  width: 40px;
+  border-width: 1px;
+  border-color: darkgrey;
+  border-radius: 30px;
+  margin: 0 10px;
+}
+
+.profile-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 0;
+}
+
+.profile-title {
+  white-space: nowrap;
+  font-size: 18px;
+}
+
+.profile-logout-btn {
+  font-size: 14px;
+  padding: 0 5px;
+}
+
+/*@media screen and (min-width: 768px) {
+  .side {
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .side {
+    flex: 1;
+  }
+}*/

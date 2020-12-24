@@ -1,0 +1,9 @@
+<div class="search">
+  <form [formGroup]="searchForm">
+    <input class="search-field" formControlName="search" placeholder="поиск по email...">
+  </form>
+</div>
+<span></span>
+<div *ngFor="let chat of chatList; trackBy: trackContacts" class="chat-wrap">
+  <chat-contact [chat]="chat" (chatSelected)="chatSelected($event)"></chat-contact>
+</div>

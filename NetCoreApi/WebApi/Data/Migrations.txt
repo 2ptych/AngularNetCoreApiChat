@@ -1,0 +1,5 @@
+﻿dotnet ef migrations add InitialIdentity -c DbContextIdentity -o Data/Migrations
+dotnet ef database update -c DbContextIdentity
+
+*** локальный экземпляр SQL Server находится как (localdb)\\mssqllocaldb (localdb)\mssqllocaldb
+    если не находится, то выполнить "SqlLocalDB.exe start MSSQLLocalDB" ***
