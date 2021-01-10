@@ -42,18 +42,18 @@ export class ChatPanelComponent implements OnInit {
   }
 
   objectToMessageModel(obj): MessageModel {
-    
-    return new MessageModel(obj['Sender'], obj['Reciever'],
+    return new MessageModel(obj['Sender'], obj['RecieverChatId'], obj['RecieverUserId'],
       obj['Text'], obj['Date']);
   }
 
   ngOnInit() {
     this.connection.on('RecieveMessage', recievedMessage => {
       let parsedMessage = JSON.parse(recievedMessage);
-      let message: MessageModel = new MessageModel(parsedMessage['Sender'], parsedMessage['Reciever'], parsedMessage['Text'], parsedMessage['Date']);
-      let messagesInBase = this.getChatMessageArray(message.reciever);
+      //let message: MessageModel = new MessageModel(parsedMessage['Sender'], parsedMessage['Reciever'], parsedMessage['Text'], parsedMessage['Date']);
+      let message: MessageModel = this.objectToMessageModel(parsedMessage);
+      let messagesInBase = this.getChatMessageArray(message.recieverChatId);
       if (messagesInBase === null) {
-        this.connection.invoke('GetMessageHistory', message.reciever);
+        this.connection.invoke('GetMessageHistory', message.recieverChatId);
       } 
       else messagesInBase.push(message);
     });
@@ -65,10 +65,7 @@ export class ChatPanelComponent implements OnInit {
       for (var i = 0; i < messages.length; i++) {
 
         messagesForShow.push(
-          new MessageModel(messages[i]['Sender'],
-            messages[i]['Reciever'],
-            messages[i]['Text'],
-            messages[i]['Date']));
+          this.objectToMessageModel(messages[i]));
       }
       this.addMessagesHistoryInBase(chatId, messagesForShow);
       this.showMessagesInChatPanel(messagesForShow);
@@ -82,7 +79,6 @@ export class ChatPanelComponent implements OnInit {
         this.renderMessages(currentChat);
       }
     });
-
     this.load = false;
   }
 
@@ -119,17 +115,27 @@ export class ChatPanelComponent implements OnInit {
   sendMessage() {
     let messageStr: string = this.cutEnterChar(this.messageControl.value);
     let reciever: string;
-    if (this.selectChat.chatId == null)
+    /*if (this.selectChat.chatId == null)
       reciever = this.selectChat.userId;
-    else reciever = this.selectChat.chatId;
+    else reciever = this.selectChat.chatId;*/
+    
     if (messageStr !== ''){
       if (this.selectChat && this.sharedData.loggedUser) {
         let message =
-          new MessageModel(this.sharedData.loggedUser.userId, reciever, messageStr, null);
+          new MessageModel(this.sharedData.loggedUser.userId, null, null, messageStr, null);
+        this.setDestinaton(message);
         this.connection.invoke('SendMessage', message);
       }
     }
     this.clearMessageInput();
+  }
+
+  // если между пользователями нет диалога, то вместо id диалога
+  // устанавливается id пользователя
+  setDestinaton(message: MessageModel){
+    if (this.selectChat.chatId == null)
+      message.recieverUserId = this.selectChat.userId;
+    else message.recieverChatId = this.selectChat.chatId;
   }
 
   clearMessageInput() {

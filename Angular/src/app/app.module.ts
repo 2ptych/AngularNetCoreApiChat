@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-//import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { AuthenticationService as AuthService } from './services/auth.service';
 import { AuthenticationGuardService as AuthGuard } from './services/auth.guard';
@@ -53,8 +53,8 @@ const routes: Routes = [
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    MatTooltipModule,
     MatProgressBarModule,
-    //MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),

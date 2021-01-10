@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebApi.Services
 {
+    // статический класс, содержащий путь к глобальной папке
+    // и пары значений папка/путь
     public static class FolderService
     {
         static string globalFolder;

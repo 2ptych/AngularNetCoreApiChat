@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +11,6 @@ using WebApi.Data;
 
 namespace WebApi.Models
 {
-    public class ShrinkChat
-    {
-        public string UserId;
-        public string ChatId;
-        public string Title;
-        public string ChatImage;
-    }
-
     [Authorize]
     public class ChatHub : Hub
     {
@@ -37,16 +28,17 @@ namespace WebApi.Models
             return base.OnConnectedAsync();
         }
 
-
         public async Task SendLoggedUser()
         {
             ApplicationUser loggedUser = await GetCurrentUserAsync();
+            //
             var serialUser = JsonConvert.SerializeObject(new ShrinkChat
             {
                 UserId = loggedUser.Id.ToString(),
                 ChatImage = loggedUser.Photo,
                 Title = loggedUser.Name + ' ' + loggedUser.FamilyName
             });
+            //
             await Clients.Caller.SendAsync("RecieveLoggedUser", serialUser);
         }
 
@@ -89,7 +81,6 @@ namespace WebApi.Models
         // получение переписок пользователя
         public async Task GetUsersChatList()
         {
-            
             ApplicationUser currentUser = await repository.GetUserByIdAsync(Context.UserIdentifier);
             ApplicationUser tmp;
             // получаем все чаты, в которых есть текущий пользователь
@@ -130,35 +121,82 @@ namespace WebApi.Models
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendMessage(MessageModel message)
+        private MessageModel ShrinkMessageToMessage(ShrinkMessageModel shMessage)
         {
-            Chat newChat;
-            // если id не является Id чата, то создаем новый
-            // чат(диалог), в который добавляем пользователей
-            // этот момент надо переделать
-            // так как даже теоретически есть вероятность
-            // что guid сгенерируется одинаковый
-            if (!(IsChat(Guid.Parse(message.Reciever))))
+            return new MessageModel()
             {
-                var recieverUser = await GetUserByIdAsync(message.Reciever);
-                var currentUser = await GetUserByIdAsync(Context.UserIdentifier);
-                newChat = new Chat(Chat.ChatType.Dialog, "") 
-                {
-                    ChatImage = ""
-                };
-                repository.AddChat(newChat);
-                repository.AddUserInChat(recieverUser, newChat);
-                repository.AddUserInChat(currentUser, newChat);
-                // подмена id юзера-получателя на id созданного чата
-                message.Reciever = newChat.Id.ToString();
-                if (message.Reciever == null) throw new ArgumentNullException("Reciever cannot be null");
-                // вернуть Id нового чата
-                await Clients.Caller.SendAsync("UpdateForNewChat", newChat.Id);
-                
-                await Clients.User(recieverUser.Id).SendAsync("GetNewChat", newChat);
+                Date = shMessage.Date,
+                Reciever = shMessage.RecieverChatId,
+                Sender = shMessage.Sender,
+                Text = shMessage.Text
+            };
+        }
+
+        // создание нового диалога
+        private Chat CreateNewDialog(List<ApplicationUser> chatMembers)
+        {
+            Chat newChat = new Chat(Chat.ChatType.Dialog, "")
+            {
+                ChatImage = ""
+            };
+            if (chatMembers.Count != 2)
+                throw new ArgumentException("Dialog can contain only 2 members");
+            repository.AddChat(newChat);
+            foreach (var user in chatMembers)
+            {
+                repository.AddUserInChat(user, newChat);
             }
-            repository.AddMessage(message);
-            List<ApplicationUser> users = await GetUsersJoinedInChatByIdAsync(message.Reciever);
+            return newChat;
+        }
+
+        /*private void AddUserInChat(ApplicationUser newUser)
+        {
+
+        }*/
+
+        //private bool CheckDialogExistance(List<ApplicationUser> chatMembers)
+        //{
+
+        //}
+
+        public async Task SendMessage(ShrinkMessageModel message)
+        {
+            // !!! проверить наличия чата между пользователями !!!
+            Chat newChat;
+            MessageModel newMessage;
+            if (message.RecieverChatId == null)
+            {
+                var currentUser = await GetUserByIdAsync(Context.UserIdentifier);
+                var recieverUser = await GetUserByIdAsync(message.RecieverUserId);
+                // создание нового диалога 
+                newChat = CreateNewDialog(
+                    new List<ApplicationUser>
+                    {
+                        currentUser,
+                        recieverUser
+                    });
+                if (newChat?.Id == null)
+                    throw new ArgumentNullException("Error occurs while creating dialog");
+                message.RecieverChatId = newChat.Id.ToString();
+                // вернуть Id нового чата и id пользователя,
+                // для взаимодействия с которым этот диалог создан
+                //* на фронте в списке пользователей будет найден этот
+                // юзер и вместо userId будет установлен chatId *
+                object result =
+                    JsonConvert.SerializeObject(
+                        new {
+                            userId = recieverUser.Id,
+                            chatId = newChat.Id
+                        });
+                await Clients.Caller.SendAsync("UpdateForNewChat", result);
+            }
+            // конвертация сообщения
+            newMessage = ShrinkMessageToMessage(message);
+            // добавление сообщения в БД
+            repository.AddMessage(newMessage);
+            // формирование списка участников чата для рассылки сообщения
+            List<ApplicationUser> users =
+                await GetUsersJoinedInChatByIdAsync(newMessage.Reciever);
             List<string> userIds = new List<string>();
             foreach (var item in users)
             {
@@ -184,6 +222,7 @@ namespace WebApi.Models
             if (chat == null) return false;
             else return true;
         }
+
         public async Task GetMessageHistory(string chatId)
         {
             var messages = await repository.GetMessageHistory(chatId);

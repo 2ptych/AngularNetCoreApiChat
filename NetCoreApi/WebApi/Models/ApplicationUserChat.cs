@@ -2,6 +2,7 @@
 
 namespace WebApi.Models
 {
+    // сущность для маппинга отношения многие-ко-многим пользователей и чатов
     public class ApplicationUserChat
     {
         public string ApplicationUserId { get; set; }

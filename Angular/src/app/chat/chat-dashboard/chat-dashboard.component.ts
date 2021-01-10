@@ -42,11 +42,21 @@ export class ChatDashboardComponent implements OnInit {
 
   // после создания чата на сервере, сюда возвращается ChatId 
   this.connection.on('UpdateForNewChat', (recievedNewChat: string) => {
-    this.sharedData.currentChat.pipe(map((value) => {
-      value.chatId = recievedNewChat;
-    }));
-    //this.sharedData.currentChat. = recievedNewChat;
-    console.log('ID созданного чата: ', recievedNewChat);
+    // ожидается объект вида { "userId": <value>, "chatId": <value> } 
+
+    // нужно ли менять значение в observable,
+    // если меняется исходное значение ???
+
+    let newChat = JSON.parse(recievedNewChat);
+    let target: ChatModel = this.chatList.find(x => x.userId === newChat.userId);
+    if (target) {
+      //console.log('1 target chatId' + target.chatId);
+      //console.log('1 target userId' + target.userId);
+      target.chatId = newChat.chatId;
+      target.userId = null;
+      //console.log('2 target chatId' + target.chatId);
+      //console.log('2 target userId' + target.userId);
+    }
   });
     
   // поиск пользователей
@@ -70,8 +80,6 @@ export class ChatDashboardComponent implements OnInit {
         alert("Не удалось получить список пользователей!");
       }
     });
-    
-    
   }
 
   searchUser(value: string){

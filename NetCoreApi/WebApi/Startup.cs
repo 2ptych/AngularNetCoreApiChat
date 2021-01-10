@@ -36,7 +36,7 @@ namespace WebApi
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:4200");
+                .WithOrigins(Configuration["UrlOptions:AngularClientUrl"]);
             }));
 
             services.AddControllersWithViews();
@@ -119,6 +119,7 @@ namespace WebApi
             app.UseCors("CorsPolicy");
 
             app.UseStaticFiles();
+            // папка с изображениями
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider =
